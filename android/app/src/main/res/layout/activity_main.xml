@@ -1,10 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
-<LinearLayout android:orientation="vertical" android:padding="20dp" android:layout_width="match_parent" android:layout_height="wrap_content">
-<TextView android:text="🤖 Telegram Bot Host" android:textSize="24sp" android:textStyle="bold" android:layout_marginBottom="20dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-<EditText android:id="@+id/etName" android:hint="Bot Name" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-<EditText android:id="@+id/etToken" android:hint="Bot Token" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-<EditText android:id="@+id/etCode" android:hint="Bot Python Code" android:minLines="5" android:gravity="top" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-<Button android:id="@+id/btnDeploy" android:text="🚀 Deploy Bot" android:layout_marginTop="15dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-<Button android:id="@+id/btnDashboard" android:text="📊 My Bots" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bg_dark" android:fillViewport="true">
+<LinearLayout android:orientation="vertical" android:padding="20dp"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:text="🤖 Deploy New Bot" android:textColor="@color/text_primary"
+        android:textSize="24sp" android:textStyle="bold"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <TextView android:text="Token daalo, baaki auto-detect ho jayega"
+        android:textColor="@color/text_secondary" android:textSize="13sp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textfield.TextInputLayout android:hint="Bot Token"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etToken"
+            android:inputType="text" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button android:id="@+id/btnDetect" android:text="🔍 Auto Detect Bot Info"
+        style="@style/Widget.TelegramHost.Button" android:layout_marginTop="10dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+    <TextView android:id="@+id/tvDetect" android:text="Bot info yahan dikhega"
+        android:textColor="@color/text_secondary" android:padding="10dp"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textfield.TextInputLayout android:hint="Bot Name (auto-filled)"
+        android:layout_marginTop="8dp" android:layout_width="match_parent" android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etName"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout android:hint="Bot Python Code"
+        android:layout_marginTop="12dp" android:layout_width="match_parent" android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etCode"
+            android:inputType="textMultiLine" android:minLines="5" android:gravity="top"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button android:id="@+id/btnDeploy" android:text="🚀 Deploy Bot"
+        style="@style/Widget.TelegramHost.Button" android:layout_marginTop="15dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+    <LinearLayout android:orientation="horizontal" android:layout_marginTop="10dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+        <Button android:id="@+id/btnDashboard" android:text="📊 My Bots"
+            style="@style/Widget.TelegramHost.Button" android:layout_weight="1"
+            android:layout_marginEnd="6dp" android:layout_width="0dp" android:layout_height="wrap_content"/>
+        <Button android:id="@+id/btnProfile" android:text="👤 Profile"
+            style="@style/Widget.TelegramHost.Button" android:layout_weight="1"
+            android:layout_marginStart="6dp" android:layout_width="0dp" android:layout_height="wrap_content"/>
+    </LinearLayout>
 </LinearLayout></ScrollView>
