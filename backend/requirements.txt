@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+python-telegram-bot
+sqlalchemy
+python-multipart
+requests
