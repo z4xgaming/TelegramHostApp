@@ -28,7 +28,7 @@
                 android:layout_marginTop="15dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
             <View android:layout_marginTop="25dp" android:background="@color/text_secondary"
                 android:layout_width="match_parent" android:layout_height="1dp"/>
-            <TextView android:text="📤 SHARE & ACCOUNT" android:textColor="@color/text_primary"
+            <TextView android:text="📤 SHARE AND ACCOUNT" android:textColor="@color/text_primary"
                 android:textSize="18sp" android:textStyle="bold" android:layout_marginTop="20dp"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"/>
             <Button android:id="@+id/btnShareApp" android:text="🔗 SHARE THIS APP"
