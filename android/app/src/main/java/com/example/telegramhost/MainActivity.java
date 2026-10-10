@@ -9,9 +9,7 @@ import android.os.Handler;
 import android.widget.*;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import retrofit2.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +17,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class MainActivity extends BaseActivity {
-    public static final String BASE_URL = "http://127.0.0.1:8000/";
-    public static ApiService api;
+    // Ab backend ki zaroorat nahi, lekin ApiService reference rakhna hai
+    public static ApiService api = null;
+    public static final String BASE_URL = "in-app";  // Python in-app
     private String uploadedCode = null;
-    private String uploadedReqs = "";
     private ActivityResultLauncher<String> filePicker;
     private ActivityResultLauncher<String[]> permLauncher;
 
@@ -31,10 +29,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         setupBottomNav(R.id.nav_home);
 
-        // 10 second timeout wala client
-        api = ApiClient.create(BASE_URL);
+        // 🐍 Python initialize karo
+        PythonBridge.init(this);
 
-        // All permissions maango
         requestAllPermissions();
 
         EditText etToken = findViewById(R.id.etToken);
@@ -55,7 +52,7 @@ public class MainActivity extends BaseActivity {
                     if (uri != null) {
                         try {
                             uploadedCode = readFile(uri);
-                            tvUploaded.setText("✅ File loaded: " + uploadedCode.length() + " chars\n📦 Auto-install libraries active");
+                            tvUploaded.setText("✅ File loaded: " + uploadedCode.length() + " chars");
                             tvUploaded.setTextColor(getColor(R.color.success));
                         } catch (Exception e) {
                             tvUploaded.setText("❌ " + e.getMessage());
@@ -98,7 +95,24 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(this, "Sab fields bharo ya file upload karo", Toast.LENGTH_SHORT).show();
                 return;
             }
-            deployWithRetry(btnDeploy, db, n, t, c, 0);
+            showProcessing(btnDeploy, "Deploying");
+
+            final String code = c;
+            // 🐍 Python bot start karo (in-app)
+            new Thread(() -> {
+                String result = PythonBridge.startBot(code, t);
+                runOnUiThread(() -> {
+                    hideProcessing(btnDeploy, R.color.primary);
+                    if (result.equals("started")) {
+                        db.saveBot("app_" + System.currentTimeMillis(), n, t, code, "running");
+                        Toast.makeText(MainActivity.this, "🚀 Bot started in-app!", Toast.LENGTH_LONG).show();
+                    } else if (result.equals("already_running")) {
+                        Toast.makeText(MainActivity.this, "⚠️ Bot already running", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "❌ " + result, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }).start();
         });
 
         btnDraft.setOnClickListener(v -> {
@@ -115,35 +129,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    // 🎯 Deploy with 10s timeout auto-retry
-    private void deployWithRetry(Button btn, DatabaseHelper db, String n, String t, String code, int attempt) {
-        if (attempt == 0) showProcessing(btn, "Deploying");
-        else btn.setText("⬛ Retry " + attempt + "...");
-        api.createBot(new BotRequest(n, t, code)).enqueue(new Callback<BotResponse>() {
-            public void onResponse(Call<BotResponse> call, Response<BotResponse> r) {
-                hideProcessing(btn, R.color.primary);
-                if (r.isSuccessful() && r.body() != null) {
-                    db.saveBot(r.body().bot_id, n, t, code, "running");
-                    Toast.makeText(MainActivity.this, "🚀 Bot deployed! (auto-install + auto-restart ON)", Toast.LENGTH_LONG).show();
-                } else {
-                    db.saveBot("local_" + System.currentTimeMillis(), n, t, code, "offline");
-                    Toast.makeText(MainActivity.this, "💾 Saved locally", Toast.LENGTH_SHORT).show();
-                }
-            }
-            public void onFailure(Call<BotResponse> call, Throwable tt) {
-                if (attempt < 2) {
-                    // 10s timeout ke baad 2 baar auto-retry
-                    new Handler().postDelayed(() ->
-                            deployWithRetry(btn, db, n, t, code, attempt + 1), 10000);
-                } else {
-                    hideProcessing(btn, R.color.primary);
-                    db.saveBot("local_" + System.currentTimeMillis(), n, t, code, "offline");
-                    Toast.makeText(MainActivity.this, "💾 Saved locally (backend off)", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
     private String readFile(Uri uri) throws IOException {
         InputStream is = getContentResolver().openInputStream(uri);
         String path = uri.getPath() != null ? uri.getPath().toLowerCase() : "";
@@ -156,10 +141,6 @@ public class MainActivity extends BaseActivity {
                     BufferedReader br = new BufferedReader(new InputStreamReader(zis));
                     String l;
                     while ((l = br.readLine()) != null) sb.append(l).append("\n");
-                } else if (e.getName().endsWith("requirements.txt")) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(zis));
-                    String l;
-                    while ((l = br.readLine()) != null) uploadedReqs += l + "\n";
                 }
             }
             zis.close();
@@ -172,7 +153,6 @@ public class MainActivity extends BaseActivity {
         return sb.toString();
     }
 
-    // 🎯 Saare permissions maango
     private void requestAllPermissions() {
         List<String> perms = new ArrayList<>();
         perms.add(Manifest.permission.INTERNET);
@@ -192,8 +172,7 @@ public class MainActivity extends BaseActivity {
         }
         if (!need.isEmpty()) {
             permLauncher = registerForActivityResult(
-                    new ActivityResultContracts.RequestMultiplePermissions(),
-                    result -> {});
+                    new ActivityResultContracts.RequestMultiplePermissions(), result -> {});
             permLauncher.launch(need.toArray(new String[0]));
         }
     }
