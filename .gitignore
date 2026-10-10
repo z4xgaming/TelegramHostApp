@@ -3,3 +3,7 @@ __pycache__/
 .gradle/
 build/
 local.properties
+running_bots/
+shared_venv/
+*.apk
+.env
