@@ -9,12 +9,6 @@ class BotRequest {
 class BotResponse { public String status, bot_id, message; }
 class StatusResponse { public String status, bot_id; }
 class LogsResponse { public String logs; }
-class BotStatus {
-    public String status;
-    public boolean running;
-    public String pid;
-    public boolean auto_restart;
-}
 class BotsList { public List<BotInfo> bots; }
 class BotInfo {
     public String id, name, status;
