@@ -1,37 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/bg_dark">
-<LinearLayout android:orientation="vertical" android:padding="15dp"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
-    <TextView android:id="@+id/tvName" android:textColor="@color/text_primary"
-        android:textSize="24sp" android:textStyle="bold" android:layout_marginBottom="15dp"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
-        <Button android:id="@+id/btnStop" android:text="⏹ Stop" style="@style/Widget.TelegramHost.Button"
-            android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
-        <Button android:id="@+id/btnRestart" android:text="🔄" style="@style/Widget.TelegramHost.Button"
-            android:layout_weight="1" android:layout_marginStart="6dp" android:layout_width="0dp" android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout android:orientation="horizontal" android:layout_marginTop="8dp"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
-        <Button android:id="@+id/btnSleep" android:text="💤 Sleep" style="@style/Widget.TelegramHost.Button"
-            android:backgroundTint="@color/warning"
-            android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
-        <Button android:id="@+id/btnDelete" android:text="🗑" style="@style/Widget.TelegramHost.Button"
-            android:backgroundTint="@color/danger"
-            android:layout_weight="1" android:layout_marginStart="6dp" android:layout_width="0dp" android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout android:orientation="horizontal" android:layout_marginTop="15dp"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
-        <TextView android:text="📜 Live Logs (auto-refresh)" android:textColor="@color/text_primary"
-            android:textStyle="bold" android:layout_weight="1"
-            android:layout_width="0dp" android:layout_height="wrap_content"/>
-        <Button android:id="@+id/btnLogs" android:text="🔄 Refresh" style="@style/Widget.TelegramHost.Button"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <TextView android:id="@+id/tvLogs" android:text="Waiting for logs..."
-        android:textColor="@color/success" android:fontFamily="monospace" android:textSize="11sp"
-        android:padding="12dp" android:background="@color/bg_card"
-        android:layout_marginTop="8dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-</LinearLayout></ScrollView>
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+        android:paddingBottom="80dp">
+        <LinearLayout android:orientation="vertical" android:padding="15dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:id="@+id/tvName" android:textColor="@color/text_primary"
+                android:textSize="22sp" android:textStyle="bold"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <TextView android:id="@+id/tvStatusBadge" android:text="🟡 Checking..."
+                android:textColor="@color/warning" android:textSize="14sp" android:layout_marginTop="4dp" android:layout_marginBottom="12dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <Button android:id="@+id/btnStop" android:text="⏹️ STOP" style="@style/Widget.TelegramHost.Button"
+                    android:backgroundTint="@color/danger" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+                <Button android:id="@+id/btnRestart" android:text="🔄 RESTART" style="@style/Widget.TelegramHost.Button"
+                    android:backgroundTint="@color/warning" android:layout_weight="1" android:layout_marginStart="6dp" android:layout_width="0dp" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:layout_marginTop="6dp"
+                android:layout_width="match_parent" android:layout_height="wrap_content">
+                <Button android:id="@+id/btnSleep" android:text="💤 SLEEP" style="@style/Widget.TelegramHost.Button"
+                    android:backgroundTint="@color/accent" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+                <Button android:id="@+id/btnDelete" android:text="🗑️ DELETE" style="@style/Widget.TelegramHost.Button"
+                    android:backgroundTint="@color/danger_dark" android:layout_weight="1" android:layout_marginStart="6dp" android:layout_width="0dp" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:layout_marginTop="15dp"
+                android:layout_width="match_parent" android:layout_height="wrap_content">
+                <TextView android:text="📜 LIVE LOGS (10s)" android:textColor="@color/text_primary"
+                    android:textStyle="bold" android:layout_gravity="center_vertical"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+                <Button android:id="@+id/btnLogs" android:text="🔄 REFRESH" style="@style/Widget.TelegramHost.Button"
+                    android:backgroundTint="@color/info" android:textSize="11sp"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView android:id="@+id/tvLogs" android:text="> Waiting for logs...\n>"
+                android:textColor="@color/terminal_text" android:fontFamily="monospace" android:textSize="11sp"
+                android:padding="12dp" android:background="@color/terminal_bg"
+                android:layout_marginTop="8dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_gravity="bottom"
+        android:background="@color/bg_card"
+        app:itemIconTint="@color/accent"
+        app:itemTextColor="@color/accent"
+        app:menu="@menu/bottom_nav_menu"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

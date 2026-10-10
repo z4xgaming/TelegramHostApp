@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bg_dark">
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+        android:paddingBottom="80dp">
+        <LinearLayout android:orientation="vertical" android:padding="20dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:text="⚙️ Settings" android:textColor="@color/text_primary"
+                android:textSize="26sp" android:textStyle="bold" android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <com.google.android.material.textfield.TextInputLayout android:hint="🔑 API_ID (Telegram)"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etApiId"
+                    android:inputType="number" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout android:hint="🔐 API_HASH"
+                android:layout_marginTop="12dp" android:layout_width="match_parent" android:layout_height="wrap_content"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etApiHash"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <Button android:id="@+id/btnSaveEnv" android:text="💾 SAVE ENV VARIABLES"
+                style="@style/Widget.TelegramHost.Button" android:backgroundTint="@color/success"
+                android:layout_marginTop="15dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <View android:layout_marginTop="25dp" android:background="@color/text_secondary"
+                android:layout_width="match_parent" android:layout_height="1dp"/>
+            <TextView android:text="📤 SHARE & ACCOUNT" android:textColor="@color/text_primary"
+                android:textSize="18sp" android:textStyle="bold" android:layout_marginTop="20dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnShareApp" android:text="🔗 SHARE THIS APP"
+                style="@style/Widget.TelegramHost.Button" android:backgroundTint="@color/info"
+                android:layout_marginTop="10dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnProfile" android:text="👤 MY PROFILE"
+                style="@style/Widget.TelegramHost.Button" android:backgroundTint="@color/accent"
+                android:layout_marginTop="10dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <Button android:id="@+id/btnLogout" android:text="🚪 LOGOUT"
+                style="@style/Widget.TelegramHost.Button" android:backgroundTint="@color/danger"
+                android:layout_marginTop="10dp" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:text="Telegram Host v1.0 • Premium" android:textColor="@color/text_secondary"
+                android:textSize="12sp" android:gravity="center" android:layout_marginTop="20dp"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_gravity="bottom"
+        android:background="@color/bg_card"
+        app:itemIconTint="@color/accent"
+        app:itemTextColor="@color/accent"
+        app:menu="@menu/bottom_nav_menu"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
